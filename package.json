@@ -1,0 +1,23 @@
+{
+  "name": "gitgit",
+  "version": "0.0.0",
+  "description": "high-level git lib, built on nodegit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wwwy3y3/gitgit.git"
+  },
+  "keywords": [
+    "git",
+    "nodegit"
+  ],
+  "author": "wwwy3y3",
+  "license": "mit",
+  "bugs": {
+    "url": "https://github.com/wwwy3y3/gitgit/issues"
+  },
+  "homepage": "https://github.com/wwwy3y3/gitgit"
+}
