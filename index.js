@@ -71,7 +71,7 @@ exports.commit= function (user, repoDir, message) {
 				return repo.getCommit(head);
 			})
 			.then(function(parent) {
-				var sig = nodegit.Signature.create(user.name, user.email, Date.now(), 0);
+				var sig = nodegit.Signature.now(user.name, user.email);
 
 				return repo.createCommit('HEAD', sig, sig, message, oid, [parent]);
 			})
