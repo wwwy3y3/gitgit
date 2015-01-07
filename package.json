@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/wwwy3y3/gitgit/issues"
   },
-  "homepage": "https://github.com/wwwy3y3/gitgit"
+  "homepage": "https://github.com/wwwy3y3/gitgit",
+  "dependencies": {
+    "nodegit": "^0.2.4"
+  }
 }
