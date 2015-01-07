@@ -1,9 +1,10 @@
 var nodegit = require('nodegit');
 var _= require('lodash');
+var Q= require('q');
 
 // init
 exports.init= function (repoDir) {
-	return nodegit.Repository.init(repoDir);
+	return nodegit.Repository.init(repoDir, 0);
 }
 
 // stage
@@ -17,10 +18,9 @@ exports.stage= function (repoDir, files) {
 
 	// add to index
 	// open repo
-	nodegit.Repository.open(repoDir)
+	return nodegit.Repository.open(repoDir)
 		   .then(function (_repo) {
 		   		repo= _repo;
-
 		   })
 		   .then(function() {
 				return repo.openIndex();
@@ -48,7 +48,7 @@ exports.commit= function (user, repoDir, message) {
 	var repo, index, oid;
 
 	// commit
-	nodegit.Repository.open(repoDir)
+	return nodegit.Repository.open(repoDir)
 		   .then(function (_repo) {
 		   		repo= _repo;
 		   })
@@ -74,5 +74,32 @@ exports.commit= function (user, repoDir, message) {
 				var sig = nodegit.Signature.now(user.name, user.email);
 
 				return repo.createCommit('HEAD', sig, sig, message, oid, [parent]);
+			})
+}
+
+exports.firstCommit= function (user, repoDir, message) {
+	// variables
+	var repo, index;
+
+	// commit
+	return nodegit.Repository.open(repoDir)
+		   .then(function (_repo) {
+		   		repo= _repo;
+		   })
+		   .then(function() {
+				return repo.openIndex();
+			})
+		   .then(function(indexResult) {
+				index = indexResult;
+				return index.read(1);
+			})
+		   .then(function () {
+		   		//write to tree
+		   		return index.writeTree();
+		   })
+			.then(function(oid) {
+				var sig = nodegit.Signature.now(user.name, user.email);
+
+				return repo.createCommit('HEAD', sig, sig, message, oid, []);
 			})
 }
