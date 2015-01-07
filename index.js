@@ -1,4 +1,5 @@
 var nodegit = require('nodegit');
+var _= require('lodash');
 
 // init
 exports.init= function (repoDir) {
@@ -6,4 +7,72 @@ exports.init= function (repoDir) {
 }
 
 // stage
+exports.stage= function (repoDir, files) {
+	if(!_.isArray(files))
+		files= [files];
+	
+	// variables
+	var repo;
+	var index;
+
+	// add to index
+	// open repo
+	nodegit.Repository.open(repoDir)
+		   .then(function (_repo) {
+		   		repo= _repo;
+
+		   })
+		   .then(function() {
+				return repo.openIndex();
+			})
+		   .then(function(indexResult) {
+				index = indexResult;
+				return index.read(1);
+			})
+		   .then(function () {
+		   		var tasks= files.map(function (file) {
+		   			return index.addByPath(file);
+		   		})
+
+		   		return Q.all(tasks);
+		   })
+		   .then(function() {
+				return index.write();
+		   })
+}
+
 // commit
+// index write to tree
+exports.commit= function (user, repoDir, message) {
+	// variables
+	var repo, index, oid;
+
+	// commit
+	nodegit.Repository.open(repoDir)
+		   .then(function (_repo) {
+		   		repo= _repo;
+		   })
+		   .then(function() {
+				return repo.openIndex();
+			})
+		   .then(function(indexResult) {
+				index = indexResult;
+				return index.read(1);
+			})
+		   .then(function () {
+		   		//write to tree
+		   		return index.writeTree();
+		   })
+		   .then(function(oidResult) {
+				oid = oidResult;
+				return nodegit.Reference.nameToId(repo, 'HEAD');
+			})
+			.then(function(head) {
+				return repo.getCommit(head);
+			})
+			.then(function(parent) {
+				var sig = nodegit.Signature.create(user.name, user.email, Date.now(), 0);
+
+				return repo.createCommit('HEAD', sig, sig, message, oid, [parent]);
+			})
+}
