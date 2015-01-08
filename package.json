@@ -1,6 +1,6 @@
 {
   "name": "gitgit",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "high-level git lib, built on nodegit",
   "main": "index.js",
   "scripts": {
