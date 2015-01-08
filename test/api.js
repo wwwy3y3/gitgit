@@ -1,20 +1,25 @@
 var gitgit= require('../');
 var path= require('path');
-var repoDir= path.resolve(__dirname, './repo2');
+var repoDir= path.resolve(__dirname, './repo');
 var FS= require('q-io/fs');
 var file= 'test.txt';
+var file2= 'test2.txt';
 var filePath= repoDir+'/test.txt';
+var filePath2= repoDir+'/test2.txt';
 
 gitgit.init(repoDir)
 	  //write file
 	  .then(function (repo) {
-	  		console.log('new repo');
 	  		return FS.write(filePath, 'hello world');
+	  }, thrown)
+
+	  .then(function (repo) {
+	  		return FS.write(filePath2, 'hello world');
 	  }, thrown)
 	  
 	  // stage
 	  .then(function (repo) {
-	  		return gitgit.stage(repoDir, file);
+	  		return gitgit.stage(repoDir, [file, file2]);
 	  }, thrown)
 
 	  //first commit
