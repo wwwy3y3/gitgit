@@ -2,15 +2,15 @@ var gitgit= require('../');
 var path= require('path');
 var repoDir= path.resolve(__dirname, './repo');
 var FS= require('q-io/fs');
-var file= repoDir+'/test.txt';
-
+var file= 'test.txt';
+/*
 gitgit.init(repoDir)
 	  //write file
 	  .then(function (repo) {
 	  		console.log('new repo');
 	  		return FS.write(file, 'hello world');
 	  }, thrown)
-	  /*
+	  
 	  // stage
 	  .then(function (repo) {
 	  		return gitgit.stage(repoDir, file);
@@ -26,7 +26,7 @@ gitgit.init(repoDir)
 	   .then(function (repo) {
 	  		return FS.append(file, 'how r u?');
 	  }, thrown)
-	*/
+	
 	   // stage
 	  .then(function (repo) {
 	  		return gitgit.stage(repoDir, file);
@@ -37,7 +37,12 @@ gitgit.init(repoDir)
 	  		var user= { name: 'wwwy3y3', email: 'wwwy3y3@gmail.com' };
 	  		return gitgit.commit(user, repoDir, 'second');
 	  }, thrown)
+*/
 
+	FS.write(file, 'hello world')
+	  .then(function (repo) {
+	  		return gitgit.stage(repoDir, file);
+	  }, thrown)
 	  .done(function () {
 	  		console.log('success');
 	  },function (err) {

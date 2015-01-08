@@ -1,6 +1,7 @@
 var nodegit = require('nodegit');
 var _= require('lodash');
 var Q= require('q');
+var path= require('path');
 
 // init
 exports.init= function (repoDir) {
@@ -21,6 +22,7 @@ exports.stage= function (repoDir, files) {
 	return nodegit.Repository.open(repoDir)
 		   .then(function (_repo) {
 		   		repo= _repo;
+		   		return repo;
 		   })
 		   .then(function() {
 				return repo.openIndex();
