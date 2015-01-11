@@ -107,17 +107,17 @@ exports.firstCommit= function (user, repoDir, message) {
 }
 
 exports.getCommit= function (repoDir, sha) {
-	nodegit.Repository.open(repoDir)
-			.then(function(repo) {
-			  return repo.getCommit(sha);
-			})
-			.then(function(_commit) {
-				var commit= {};
-				commit.sha= _commit.sha();
-				commit.author= { name: _commit.author().name(), email: _commit.author().email() };
-			  	commit.date= _commit.date();
-			  	commit.message= _commit.message();
+	return nodegit.Repository.open(repoDir)
+				.then(function(repo) {
+				  return repo.getCommit(sha);
+				})
+				.then(function(_commit) {
+					var commit= {};
+					commit.sha= _commit.sha();
+					commit.author= { name: _commit.author().name(), email: _commit.author().email() };
+				  	commit.date= _commit.date();
+				  	commit.message= _commit.message();
 
-			  return commit;
-			})
+				  return commit;
+				})
 }

@@ -45,7 +45,7 @@ gitgit.init(repoDir)
 	  }, thrown)
 
 	  .then(function (commitId) {
-	  		return gitgit.getCommit(repoDir, commitId);
+	  		return gitgit.getCommit(repoDir, commitId.toString());
 	  })
 
 	  //done
