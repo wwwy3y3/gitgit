@@ -44,9 +44,13 @@ gitgit.init(repoDir)
 	  		return gitgit.commit(user, repoDir, 'second');
 	  }, thrown)
 
+	  .then(function (commitId) {
+	  		return gitgit.getCommit(repoDir, commitId);
+	  })
+
 	  //done
-	  .done(function () {
-	  		console.log('success')
+	  .done(function (commit) {
+	  		console.log(commit)
 	  }, function (er) {
 	  	console.log(er);
 	  })
