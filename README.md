@@ -9,3 +9,5 @@ high-level git lib, built on nodegit
 ## commit(user, repoDir, message)
 
 ## firstCommit(user, repoDir, message)
+
+## getCommit(repoDir, sha)
