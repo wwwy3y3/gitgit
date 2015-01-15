@@ -58,3 +58,11 @@ gitgit.init(repoDir)
 var thrown= function (err) {
 	throw err;
 }
+
+// read history
+gitgit.getHistory(repoDir)
+	  .done(function (commits) {
+	  	console.log(commits)
+	  }, function (err) {
+	  	console.log(err);
+	  })

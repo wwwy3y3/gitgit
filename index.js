@@ -123,34 +123,33 @@ exports.getCommit= function (repoDir, sha) {
 }
 
 exports.getHistory= function (repoDir) {
-	nodegit.Repository.open(path.resolve(repoDir).then(function(repo) {
-  		return repo.getMasterCommit();
-	}).then(function(firstCommitOnMaster){
-		var deferred = Q.defer();
-		var commits= [];
-		// History returns an event.
-		var history = firstCommitOnMaster.history(nodegit.Revwalk.SORT.Time);
+	return nodegit.Repository.open(repoDir).then(function(repo) {
+	  		return repo.getMasterCommit();
+		}).then(function(firstCommitOnMaster){
+			var deferred = Q.defer();
+			var commits= [];
+			// History returns an event.
+			var history = firstCommitOnMaster.history(nodegit.Revwalk.SORT.Time);
 
-		// History emits 'commit' event for each commit in the branch's history
-		history.on('commit', function(_commit) {
-		var commit= {};
-		commit.sha= _commit.sha();
-		commit.author= { name: _commit.author().name(), email: _commit.author().email() };
-			commit.date= _commit.date();
-			commit.message= _commit.message();
-			commits.push(commit);
-		});
+			// History emits 'commit' event for each commit in the branch's history
+			history.on('commit', function(_commit) {
+				var commit= {};
+				commit.sha= _commit.sha();
+				commit.author= { name: _commit.author().name(), email: _commit.author().email() };
+				commit.date= _commit.date();
+				commit.message= _commit.message();
+				commits.push(commit);
+			});
 
-		history.on("end", function(commits) {
-	      	console.log(commits);
-	      	deferred.resolve(commits);
-	    });
+			history.on("end", function() {
+		      	deferred.resolve(commits);
+		    });
 
-	    history.on("error", function(err) {
-	      	deferred.reject(err);
-	    });
+		    history.on("error", function(err) {
+		      	deferred.reject(err);
+		    });
 
-		history.start();
-		return deferred.promise;
-	})
+			history.start();
+			return deferred.promise;
+		})
 }
