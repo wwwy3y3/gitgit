@@ -11,3 +11,5 @@ high-level git lib, built on nodegit
 ## firstCommit(user, repoDir, message)
 
 ## getCommit(repoDir, sha)
+
+## getHistory(repoDir)
